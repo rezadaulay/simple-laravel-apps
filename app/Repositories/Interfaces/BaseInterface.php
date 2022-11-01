@@ -2,16 +2,17 @@
 
 namespace App\Repositories\Interfaces;
 use Illuminate\Foundation\Http\FormRequest;
+use Symfony\Component\HttpFoundation\Request;
 
 interface BaseInterface
 {
-    public function index(FormRequest $request);
+    public function index(Request $request);
 
     public function find(String $id);
 
-    public function create(FormRequest $request);
+    public function create(Request $request);
 
-    public function update(String $id, FormRequest $request);
+    public function update(String $id, Request $request);
 
     public function delete(String $id);  
 }

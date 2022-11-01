@@ -1,7 +1,7 @@
 <x-app-layout>
     <x-slot name="header">
         <h2 class="font-semibold text-xl text-gray-800 leading-tight">
-            Add New Article
+            Edit Article
         </h2>
     </x-slot>
 
@@ -14,7 +14,7 @@
                 <li><span class="text-gray-500 mx-2">&nbsp;/&nbsp;</span></li>
                 <li><a href="{{route('articles.index')}}" class="text-blue-600 hover:text-blue-700">Articles</a></li>
                 <li><span class="text-gray-500 mx-2">&nbsp;/&nbsp;</span></li>
-                <li class="text-gray-500">Add New</li>
+                <li class="text-gray-500">Edit</li>
                 </ol>
             </nav>
             
@@ -25,14 +25,14 @@
                         {{ session('catch_error') }}
                     </div>
                     @endif
-                    <form method="POST" enctype="multipart/form-data" action="{{ route('articles.store') }}">
+                    <form method="POST" enctype="multipart/form-data" action="{{ route('articles.update', ['article' => $article->id]) }}">
                         @csrf
-                        @method('POST')
+                        @method('PATCH')
 
                         <div>
                             <x-input-label for="title" :value="__('Title *')" />
             
-                            <x-text-input id="title" class="block mt-1 w-full" type="text" name="title" :value="old('title')" required autofocus />
+                            <x-text-input id="title" class="block mt-1 w-full" type="text" name="title" :value="old('title') ? old('title') : $article->title" required autofocus />
             
                             <x-input-error :messages="$errors->get('title')" class="mt-2" />
                         </div>
@@ -42,24 +42,24 @@
                                 <li>Min 100 chars.</li>
                             </ul>
 
-                            <textarea  id="content" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" name="content" required rows="10">{{ old('content') }}</textarea> 
+                            <textarea  id="content" class="block mt-1 w-full rounded-md shadow-sm border-gray-300 focus:border-indigo-300 focus:ring focus:ring-indigo-200 focus:ring-opacity-50" name="content" required rows="10">{{ old('content') ? old('content') : $article->content }}</textarea> 
             
                             <x-input-error :messages="$errors->get('content')" class="mt-2" />
                         </div>
                         <div class="mt-4">
-                            <x-input-label for="article_image" :value="__('Creator Image *')" />
+                            <x-input-label for="article_image" :value="__('Creator Image')" />
             
                             <ul class="text-sm text-gray-600 space-y-1 mt-2">
                                 <li>Max 1000 kilobytes.</li>
                             </ul>
-                            <x-text-input id="article_image" class="block mt-1 w-full" type="file" name="article_image" :value="old('article_image')" required />
+                            <x-text-input id="article_image" class="block mt-1 w-full" type="file" name="article_image" :value="old('article_image')" />
             
                             <x-input-error :messages="$errors->get('article_image')" class="mt-2" />
                         </div>
                         <div class="mt-4">
                             <x-input-label for="article_creator" :value="__('Creator Name *')" />
             
-                            <x-text-input id="article_creator" class="block mt-1 w-full" type="text" name="article_creator" :value="old('article_creator')" required />
+                            <x-text-input id="article_creator" class="block mt-1 w-full" type="text" name="article_creator" :value="old('article_creator') ? old('article_creator') : $article->article_creator" required />
             
                             <x-input-error :messages="$errors->get('article_creator')" class="mt-2" />
                         </div>

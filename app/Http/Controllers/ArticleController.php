@@ -4,6 +4,7 @@ namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
 use App\Http\Requests\Articles\StoreRequest;
+use App\Http\Requests\Articles\UpdateRequest;
 use App\Repositories\Eloquent\ArticleRepository;
 use Illuminate\Support\Facades\DB;
 use App\Http\Resources\ArticleCollection;
@@ -20,11 +21,14 @@ class ArticleController extends Controller
     /**
      * Display a listing of the resource.
      *
+     * @param  \Illuminate\Http\Request  $request
      * @return \Illuminate\Http\Response
      */
-    public function index()
+    public function index(Request $request)
     {
-        return view('pages.article.index');
+        return view('pages.article.index',[
+            'articles' => $this->repository->index($request)
+        ]);
     }
 
     /**
@@ -60,7 +64,7 @@ class ArticleController extends Controller
     /**
      * Display the specified resource.
      *
-     * @param  int  $id
+     * @param  string  $id
      * @return \Illuminate\Http\Response
      */
     public function show($id)
@@ -73,30 +77,41 @@ class ArticleController extends Controller
     /**
      * Show the form for editing the specified resource.
      *
-     * @param  int  $id
+     * @param  string  $id
      * @return \Illuminate\Http\Response
      */
     public function edit($id)
     {
-        //
+        return view('pages.article.edit', [
+            'article' => $this->repository->find($id)
+        ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \Illuminate\Http\Request  $request
-     * @param  int  $id
+     * @param  \App\Http\Requests\Articles\UpdateRequest  $request
+     * @param  string  $id
      * @return \Illuminate\Http\Response
      */
     public function update(Request $request, $id)
     {
-        //
+        DB::beginTransaction();
+		try{
+            $data = $this->repository->update($id, $request);
+            DB::commit();
+            return redirect()->route('articles.show', ['article' => $data->id]);
+        } catch(\Exception $e){
+            DB::rollback();
+            report($e);
+            return redirect()->back()->withInput()->with('catch_error', 'Proses data gagal, silahkan coba lagi');
+        }
     }
 
     /**
      * Remove the specified resource from storage.
      *
-     * @param  int  $id
+     * @param  string  $id
      * @return \Illuminate\Http\Response
      */
     public function destroy($id)
