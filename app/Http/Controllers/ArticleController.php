@@ -101,6 +101,15 @@ class ArticleController extends Controller
      */
     public function destroy($id)
     {
-        //
+        DB::beginTransaction();
+		try{
+            $data = $this->repository->delete($id);
+            DB::commit();
+            return redirect()->route('articles.index')->with('success_msg', 'Sukses menghapus data');
+        } catch(\Exception $e){
+            DB::rollback();
+            report($e);
+            return redirect()->back()->with('catch_error', 'Proses data gagal, silahkan coba lagi');
+        }
     }
 }

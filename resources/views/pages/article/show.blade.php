@@ -25,10 +25,6 @@
                         {{ session('catch_error') }}
                     </div>
                     @endif
-                    <form method="POST" enctype="multipart/form-data" action="{{ route('articles.store') }}">
-                        @csrf
-                        @method('POST')
-
                         <div>
                             <x-input-label for="title" :value="__('Title')" />
                             <p>{{$article->title}}</p>
@@ -45,7 +41,16 @@
                             <x-input-label for="article_creator" :value="__('Creator Name')" />
                             <p>{{$article->article_creator}}</p>
                         </div>
-                    </form>
+                        <form method="POST" enctype="multipart/form-data" action="{{ route('articles.destroy', ['article' => $article->id]) }}" onsubmit="return confirm('Do you really want to delete this article?');">
+                            @csrf
+                            @method('DELETE')
+    
+                            <div class="flex items-center mt-4">
+                                <x-primary-button>
+                                    Delete
+                                </x-primary-button>
+                            </div>
+                        </form>
                 </div>
             </div>
         </div>

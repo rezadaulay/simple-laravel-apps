@@ -5,6 +5,7 @@ namespace App\Repositories\Eloquent;
 use App\Models\Article;
 use App\Repositories\Interfaces\BaseInterface;
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Support\Facades\Storage;
 
 class ArticleRepository implements BaseInterface
 {
@@ -31,5 +32,9 @@ class ArticleRepository implements BaseInterface
 
     public function update(String $id, FormRequest $request)  {}
 
-    public function delete(String $id) {}
+    public function delete(String $id) {
+        $data = $this->model->findOrFail($id);
+        Storage::delete($data->article_image);
+        $data->delete();
+    }
 }
