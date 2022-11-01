@@ -25,7 +25,10 @@
                         {{ session('catch_error') }}
                     </div>
                     @endif
-                        <div>
+                        <div style="width: 100%; text-align:right">
+                            <a class="underline" href="{{route('articles.edit', ['article' => $article->id])}}">Edit Article</a>
+                        </div>
+                        <div class="mt-4">
                             <x-input-label for="title" :value="__('Title')" />
                             <p>{{$article->title}}</p>
                         </div>

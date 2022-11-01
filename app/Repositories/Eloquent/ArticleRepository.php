@@ -50,14 +50,18 @@ class ArticleRepository implements BaseInterface
     public function update(String $id, Request $request)  {
         $data = $this->find($id);
         $article_image = $data->article_image;
-        // if ($request->hasFile('article_image')) {}
-        //  ? $request->file('article_image')->store('uploads/article_images') : $data->article_image
-        return $this->model->create([
+        if ($request->hasFile('article_image')) {
+            Storage::delete($data->article_image);
+            $article_image = $request->file('article_image')->store('uploads/article_images');
+        }
+        $data->update([
             'title' => $request->title,
             'content' => $request->content,
             'article_image' => $article_image,
             'article_creator' => $request->article_creator,
-        ]);}
+        ]);
+        return $data;
+    }
 
     public function delete(String $id) {
         $data = $this->find($id);
