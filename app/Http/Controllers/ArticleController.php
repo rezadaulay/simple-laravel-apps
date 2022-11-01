@@ -6,6 +6,8 @@ use Illuminate\Http\Request;
 use App\Http\Requests\Articles\StoreRequest;
 use App\Repositories\Eloquent\ArticleRepository;
 use Illuminate\Support\Facades\DB;
+use App\Http\Resources\ArticleCollection;
+use App\Http\Resources\ArticleResource;
 
 class ArticleController extends Controller
 {
@@ -63,7 +65,9 @@ class ArticleController extends Controller
      */
     public function show($id)
     {
-        //
+        return view('pages.article.show', [
+            'article' => $this->repository->find($id)
+        ]);
     }
 
     /**

@@ -16,7 +16,9 @@ class ArticleRepository implements BaseInterface
 
     public function index(FormRequest $request) {}
 
-    public function find(String $id) {}
+    public function find(String $id) {
+        return $this->model->findOrFail($id);
+    }
 
     public function create(FormRequest $request)  {
         return $this->model->create([
