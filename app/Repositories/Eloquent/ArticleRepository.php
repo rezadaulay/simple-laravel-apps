@@ -16,22 +16,24 @@ class ArticleRepository implements BaseInterface
         $this->model = new Article;
     }
 
-    public function index(Request $request) {
+    public function index(Request $request = null) {
         $data = $this->model;
-        if ($request->has('title') && $request->title != '') {
-            $data = $data->where('title', 'LIKE', '%'.$request->title.'%');
+        if (!is_null($request)) {
+            if ($request->has('title') && $request->title != '') {
+                $data = $data->where('title', 'LIKE', '%'.$request->title.'%');
+            }
+            if ($request->has('article_creator') && $request->article_creator != '') {
+                $data = $data->where('article_creator', 'LIKE', '%'.$request->article_creator.'%');
+            }
         }
-        if ($request->has('article_creator') && $request->article_creator != '') {
-            $data = $data->where('article_creator', 'LIKE', '%'.$request->article_creator.'%');
-        }
-        if ($request->has('order_by') && in_array($request->order_by, [
+        if (!is_null($request) && $request->has('order_by') && in_array($request->order_by, [
             'title', 'article_creator'
         ])) {
             $data = $data->orderBy($request->order_by, $request->has('ascending') && $request->ascending == 0 ? 'DESC' : 'ASC');
         } else {
             $data = $data->orderBy('created_at', 'ASC');
         }
-        return $data->paginate($request->has('limit') && $request->limit < 50 ? $request->limit : 10);
+        return $data->paginate(!is_null($request) && $request->has('limit') && $request->limit < 50 ? $request->limit : 10);
     }
 
     public function find(String $id) {

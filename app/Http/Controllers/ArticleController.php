@@ -7,8 +7,6 @@ use App\Http\Requests\Article\StoreRequest;
 use App\Http\Requests\Article\UpdateRequest;
 use App\Repositories\Eloquent\ArticleRepository;
 use Illuminate\Support\Facades\DB;
-use App\Http\Resources\ArticleCollection;
-use App\Http\Resources\ArticleResource;
 
 class ArticleController extends Controller
 {
