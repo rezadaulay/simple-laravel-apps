@@ -3,19 +3,19 @@
 namespace App\Http\Controllers;
 
 use Illuminate\Http\Request;
-use App\Http\Requests\Article\StoreRequest;
-use App\Http\Requests\Article\UpdateRequest;
-use App\Repositories\Eloquent\ArticleRepository;
+use App\Http\Requests\User\StoreRequest;
+use App\Http\Requests\User\UpdateRequest;
+use App\Repositories\Eloquent\UserRepository;
 use Illuminate\Support\Facades\DB;
-use App\Http\Resources\ArticleCollection;
-use App\Http\Resources\ArticleResource;
+use App\Http\Resources\UserCollection;
+use App\Http\Resources\UserResource;
 
-class ArticleController extends Controller
+class UserController extends Controller
 {
     protected $repository;
     public function __construct()
     {
-        $this->repository = new ArticleRepository;
+        $this->repository = new UserRepository;
     }
 
     /**
@@ -26,8 +26,8 @@ class ArticleController extends Controller
      */
     public function index(Request $request)
     {
-        return view('pages.article.index',[
-            'articles' => $this->repository->index($request)
+        return view('pages.user.index',[
+            'users' => $this->repository->index($request)
         ]);
     }
 
@@ -38,13 +38,13 @@ class ArticleController extends Controller
      */
     public function create()
     {
-        return view('pages.article.create');
+        return view('pages.user.create');
     }
 
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\Articles\StoreRequest  $request
+     * @param  \App\Http\Requests\Users\StoreRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreRequest $request)
@@ -53,7 +53,7 @@ class ArticleController extends Controller
 		try{
             $data = $this->repository->create($request);
             DB::commit();
-            return redirect()->route('articles.show', ['article' => $data->id]);
+            return redirect()->route('users.show', ['user' => $data->id]);
         } catch(\Exception $e){
             DB::rollback();
             report($e);
@@ -69,8 +69,8 @@ class ArticleController extends Controller
      */
     public function show($id)
     {
-        return view('pages.article.show', [
-            'article' => $this->repository->find($id)
+        return view('pages.user.show', [
+            'user' => $this->repository->find($id)
         ]);
     }
 
@@ -82,15 +82,15 @@ class ArticleController extends Controller
      */
     public function edit($id)
     {
-        return view('pages.article.edit', [
-            'article' => $this->repository->find($id)
+        return view('pages.user.edit', [
+            'user' => $this->repository->find($id)
         ]);
     }
 
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\Articles\UpdateRequest  $request
+     * @param  \App\Http\Requests\Users\UpdateRequest  $request
      * @param  string  $id
      * @return \Illuminate\Http\Response
      */
@@ -100,7 +100,7 @@ class ArticleController extends Controller
 		try{
             $data = $this->repository->update($id, $request);
             DB::commit();
-            return redirect()->route('articles.show', ['article' => $data->id]);
+            return redirect()->route('users.show', ['user' => $data->id]);
         } catch(\Exception $e){
             DB::rollback();
             report($e);
@@ -120,7 +120,7 @@ class ArticleController extends Controller
 		try{
             $data = $this->repository->delete($id);
             DB::commit();
-            return redirect()->route('articles.index')->with('success_msg', 'Sukses menghapus data');
+            return redirect()->route('users.index')->with('success_msg', 'Sukses menghapus data');
         } catch(\Exception $e){
             DB::rollback();
             report($e);

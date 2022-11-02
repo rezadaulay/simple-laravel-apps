@@ -1,8 +1,9 @@
 <?php
 
-namespace App\Http\Requests\Article;
+namespace App\Http\Requests\User;
 
 use Illuminate\Foundation\Http\FormRequest;
+use Illuminate\Validation\Rule;
 
 class UpdateRequest extends FormRequest
 {
@@ -24,10 +25,9 @@ class UpdateRequest extends FormRequest
     public function rules()
     {
         return [
-            'title' => 'required',
-            'content' => 'required|min:100',
-            'article_image' => 'nullable|image|max:1000',
-            'article_creator' => 'required',
+            'name' => 'required',
+            'email' => 'required|email',
+            'password' => 'nullable|min:6',
         ];
     }
 }
