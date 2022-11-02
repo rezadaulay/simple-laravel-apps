@@ -94,7 +94,7 @@ class ArticleController extends Controller
      * @param  string  $id
      * @return \Illuminate\Http\Response
      */
-    public function update(Request $request, $id)
+    public function update(UpdateRequest $request, $id)
     {
         DB::beginTransaction();
 		try{

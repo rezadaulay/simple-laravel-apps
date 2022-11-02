@@ -43,7 +43,7 @@ class UserRepository implements BaseInterface
         return $this->model->create([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => Hash::make('password')
+            'password' => Hash::make($request->password)
         ]);
     }
 
@@ -52,7 +52,7 @@ class UserRepository implements BaseInterface
         $data->update([
             'name' => $request->name,
             'email' => $request->email,
-            'password' => $request->has('password') ? Hash::make('password') : $data->password
+            'password' => $request->has('password') ? Hash::make($request->password) : $data->password
         ]);
         return $data;
     }
