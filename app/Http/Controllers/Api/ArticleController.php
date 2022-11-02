@@ -6,14 +6,16 @@ use App\Http\Controllers\Controller;
 use Illuminate\Http\Request;
 use App\Http\Resources\ArticleCollection;
 use App\Http\Resources\ArticleResource;
+use App\Services\Cache\ArticleCache;
 use App\Repositories\Eloquent\ArticleRepository;
 
 class ArticleController extends Controller
 {
-    protected $repository;
+    protected $articleService, $repository;
     public function __construct()
     {
         $this->repository = new ArticleRepository;
+        $this->articleService = new ArticleCache;
     }
 
     /**
@@ -23,7 +25,7 @@ class ArticleController extends Controller
      */
     public function index()
     {
-        return new ArticleCollection($this->repository->index());
+        return new ArticleCollection($this->articleService->list());
     }
 
     /**
@@ -45,7 +47,7 @@ class ArticleController extends Controller
      */
     public function show($id)
     {
-        return new ArticleResource($this->repository->find($id));
+        return new ArticleResource($this->articleService->single($id));
     }
 
     /**
