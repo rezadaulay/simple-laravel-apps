@@ -25,25 +25,25 @@
                         {{ session('catch_error') }}
                     </div>
                     @endif
-                    <form method="POST" enctype="multipart/form-data" action="{{ route('users.store') }}">
-                        @csrf
-                        @method('POST')
+                    <div style="width: 100%; text-align:right">
+                        <a class="underline" href="{{route('users.edit', ['user' => $user->id])}}">Edit User</a>
+                    </div>
+                    <div class="mt-4">
+                        <x-input-label for="name" :value="__('Name')" />
+                        <p>{{$user->name}}</p>
+                    </div>
+                    <div>
+                        <x-input-label for="email" :value="__('Email')" />
+                        <p>{{$user->email}}</p>
+                    </div>
 
-                        <div style="width: 100%; text-align:right">
-                            <a class="underline" href="{{route('users.edit', ['user' => $user->id])}}">Edit User</a>
-                        </div>
-                        <div class="mt-4">
-                            <x-input-label for="name" :value="__('Name')" />
-                            <p>{{$user->name}}</p>
-                        </div>
-                        <div>
-                            <x-input-label for="email" :value="__('Email')" />
-                            <p>{{$user->email}}</p>
-                        </div>
+                    <form method="POST" enctype="multipart/form-data" action="{{ route('users.destroy', ['user' => $user->id]) }}" onsubmit="return confirm('Do you really want to delete this user?');">
+                        @csrf
+                        @method('DELETE')
 
                         <div class="flex items-center mt-4">
                             <x-primary-button>
-                                Submit
+                                Delete
                             </x-primary-button>
                         </div>
                     </form>

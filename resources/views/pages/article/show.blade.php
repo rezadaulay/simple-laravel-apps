@@ -25,35 +25,35 @@
                         {{ session('catch_error') }}
                     </div>
                     @endif
-                        <div style="width: 100%; text-align:right">
-                            <a class="underline" href="{{route('articles.edit', ['article' => $article->id])}}">Edit Article</a>
+                    <div style="width: 100%; text-align:right">
+                        <a class="underline" href="{{route('articles.edit', ['article' => $article->id])}}">Edit Article</a>
+                    </div>
+                    <div class="mt-4">
+                        <x-input-label for="title" :value="__('Title')" />
+                        <p>{{$article->title}}</p>
+                    </div>
+                    <div class="mt-4">
+                        <x-input-label for="content" :value="__('Content')" />
+                        <p>{!! nl2br($article->content) !!}</p>
+                    </div>
+                    <div class="mt-4">
+                        <x-input-label for="article_image" :value="__('Article Image')" />
+                        <img src="{{$article->article_image_url}}" style="max-width: 200px;" alt="">
+                    </div>
+                    <div class="mt-4">
+                        <x-input-label for="article_creator" :value="__('Creator Name')" />
+                        <p>{{$article->article_creator}}</p>
+                    </div>
+                    <form method="POST" enctype="multipart/form-data" action="{{ route('articles.destroy', ['article' => $article->id]) }}" onsubmit="return confirm('Do you really want to delete this article?');">
+                        @csrf
+                        @method('DELETE')
+
+                        <div class="flex items-center mt-4">
+                            <x-primary-button>
+                                Delete
+                            </x-primary-button>
                         </div>
-                        <div class="mt-4">
-                            <x-input-label for="title" :value="__('Title')" />
-                            <p>{{$article->title}}</p>
-                        </div>
-                        <div class="mt-4">
-                            <x-input-label for="content" :value="__('Content')" />
-                            <p>{!! nl2br($article->content) !!}</p>
-                        </div>
-                        <div class="mt-4">
-                            <x-input-label for="article_image" :value="__('Article Image')" />
-                            <img src="{{$article->article_image_url}}" style="max-width: 200px;" alt="">
-                        </div>
-                        <div class="mt-4">
-                            <x-input-label for="article_creator" :value="__('Creator Name')" />
-                            <p>{{$article->article_creator}}</p>
-                        </div>
-                        <form method="POST" enctype="multipart/form-data" action="{{ route('articles.destroy', ['article' => $article->id]) }}" onsubmit="return confirm('Do you really want to delete this article?');">
-                            @csrf
-                            @method('DELETE')
-    
-                            <div class="flex items-center mt-4">
-                                <x-primary-button>
-                                    Delete
-                                </x-primary-button>
-                            </div>
-                        </form>
+                    </form>
                 </div>
             </div>
         </div>
