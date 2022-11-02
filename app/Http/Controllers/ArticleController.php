@@ -42,7 +42,7 @@ class ArticleController extends Controller
     /**
      * Store a newly created resource in storage.
      *
-     * @param  \App\Http\Requests\Articles\StoreRequest  $request
+     * @param  \App\Http\Requests\Article\StoreRequest  $request
      * @return \Illuminate\Http\Response
      */
     public function store(StoreRequest $request)
@@ -88,7 +88,7 @@ class ArticleController extends Controller
     /**
      * Update the specified resource in storage.
      *
-     * @param  \App\Http\Requests\Articles\UpdateRequest  $request
+     * @param  \App\Http\Requests\Article\UpdateRequest  $request
      * @param  string  $id
      * @return \Illuminate\Http\Response
      */

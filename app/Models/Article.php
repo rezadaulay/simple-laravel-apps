@@ -7,10 +7,24 @@ use Illuminate\Database\Eloquent\Model;
 use Illuminate\Support\Facades\Storage;
 use Illuminate\Database\Eloquent\Casts\Attribute;
 use App\Traits\Uuid;
+use App\Events\Article\ArticleCreated;
+use App\Events\Article\ArticleUpdated;
+use App\Events\Article\ArticleDeleted;
 
 class Article extends Model
 {
     use HasFactory, Uuid;
+
+    /**
+     * The event map for the model.
+     *
+     * @var array
+     */
+    protected $dispatchesEvents = [
+        'created' => ArticleCreated::class,
+        'updated' => ArticleUpdated::class,
+        'deleted' => ArticleDeleted::class,
+    ];
 
     /**
      * The attributes that are mass assignable.

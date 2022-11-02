@@ -6,6 +6,12 @@ use Illuminate\Auth\Events\Registered;
 use Illuminate\Auth\Listeners\SendEmailVerificationNotification;
 use Illuminate\Foundation\Support\Providers\EventServiceProvider as ServiceProvider;
 use Illuminate\Support\Facades\Event;
+use App\Events\Article\ArticleCreated;
+use App\Events\Article\ArticleUpdated;
+use App\Events\Article\ArticleDeleted;
+use App\Listeners\Article\HandleCacheWhenCreated;
+use App\Listeners\Article\HandleCacheWhenUpdated;
+use App\Listeners\Article\HandleCacheWhenDeleted;
 
 class EventServiceProvider extends ServiceProvider
 {
@@ -17,6 +23,15 @@ class EventServiceProvider extends ServiceProvider
     protected $listen = [
         Registered::class => [
             SendEmailVerificationNotification::class,
+        ],
+        ArticleCreated::class => [
+            HandleCacheWhenCreated::class,
+        ],
+        ArticleUpdated::class => [
+            HandleCacheWhenUpdated::class,
+        ],
+        ArticleDeleted::class => [
+            HandleCacheWhenDeleted::class,
         ],
     ];
 

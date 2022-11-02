@@ -26,6 +26,6 @@ class ArticleCache
         $repository = $this->repository;
         return Cache::tags('articles')->rememberForever('article_detail_' . $id , function () use ($repository, $id) {
             return $repository->find($id);
-        });        
+        });
     }
 }
